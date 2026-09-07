@@ -108,7 +108,7 @@
 
       .ey-hero-stage { min-height: 791px; background-color: #fef5e4; }
       /* desktop: véu creme pela esquerda garante leitura do texto sobre a cortina bordô */
-      .ey-hero-veu { top: 0; bottom: 0; left: 0; right: auto; width: 62%; height: 100%; max-height: none; background-image: linear-gradient(90deg, #fef5e4 0%, rgba(254,245,228,0.96) 34%, rgba(254,245,228,0.7) 58%, rgba(254,245,228,0) 100%); }
+      .ey-hero-veu { top: 0; bottom: 0; left: 0; right: auto; width: 80%; height: 100%; max-height: none; background-image: linear-gradient(90deg, #fef5e4 0%, rgba(254,245,228,0.97) 38%, rgba(254,245,228,0.78) 58%, rgba(254,245,228,0.35) 78%, rgba(254,245,228,0) 100%); }
       .ey-hero-marquee { height: 72px; }
       .ey-hero-mitem { height: 43.2px; gap: 9px; }
       .ey-hero-micon { width: 60px !important; height: 15px !important; }
@@ -130,6 +130,8 @@
     .ey-hero-mulher { animation: ey-hero-foto 1.4s cubic-bezier(.22,.61,.36,1) both; }
     @keyframes ey-hero-foto { from { opacity: 0; transform: scale(1.03); } to { opacity: 1; transform: scale(1); } }
     @media (prefers-reduced-motion: reduce) { .ey-hero-mulher { animation: none; } }
+
+    @media (min-width: 1024px) and (max-width: 1279px) { .ey-hero-inner { width: 560px; } .ey-hero-title { font-size: 50px; line-height: 52px; } .ey-hero-mulher { object-position: 88% center; } }
 
     /* Flash contínuo passando pelo botão (ciclo 1.5s) */
     .ey-hero-headcta, .ey-hero-cta, .ey-hero-menu-cta { position: relative; overflow: hidden !important; }
