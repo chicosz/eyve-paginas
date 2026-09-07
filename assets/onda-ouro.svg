@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="700" viewBox="0 0 700 700" fill="none" preserveAspectRatio="xMidYMid meet">
+  <!-- EYVE — linha ondulada dourada do pouch (padrão de fundo decorativo, troca a flor da referência) -->
+  <defs>
+    <linearGradient id="ey-ouro" x1="0" y1="0" x2="700" y2="700" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#be923f"/><stop offset=".3" stop-color="#f3d985"/><stop offset=".55" stop-color="#ba8a42"/><stop offset=".8" stop-color="#f3d985"/><stop offset="1" stop-color="#be923f"/>
+    </linearGradient>
+  </defs>
+  <g stroke="url(#ey-ouro)" stroke-width="2.6" stroke-linecap="round" fill="none">
+    <path d="M40 120 C 180 60, 300 140, 250 250 S 60 380, 140 470 S 420 540, 470 430 S 380 260, 520 230 S 700 300, 660 430"/>
+    <path d="M60 150 C 190 95, 290 165, 240 265 S 70 395, 150 485 S 415 555, 465 445 S 395 275, 530 245 S 690 315, 650 445" opacity=".55"/>
+    <path d="M20 560 C 120 520, 200 600, 300 590 S 450 520, 560 600 S 660 660, 700 610" opacity=".7"/>
+  </g>
+</svg>

@@ -1,0 +1,1090 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>EYVE · Grupo da Segunda Fase</title><link rel="icon" href="assets/logo-eyve-bordo.svg"><meta name="robots" content="noindex"></head><body style="margin:0">
+<!-- ============================================================
+  EYVE · Segunda Fase — PÁGINA DE CAPTURA · C01 (topbar + header + hero com formulário + marquee) | Okya Designs
+  Base: s01 da página de vendas. Objetivo único: nome + WhatsApp (+ e-mail opcional) → redireciona pro convite do grupo.
+  ⚑ PENDENTE: link de convite do grupo (#__WHATSAPP_GRUPO_EYVE__) · destino dos leads (planilha/CRM/automação) · data de lançamento.
+============================================================ -->
+<section class="ey-hero" id="ey-topo">
+  <style>
+    /* Fontes da marca EYVE (arquivos licenciados do cliente, subset latin em woff2 — ver fontes/tipos/).
+       Loretta (display serif): 400 = Md Display (títulos) · 500 = Light (números/citações) · 700 itálico = Display Italic (destaques).
+       Neue Haas Grotesk Display Pro (texto): 400 = 55 Roman · 500-600 = 65 Medium · 700-800 = 75 Bold. */
+    @font-face { font-family: 'Loretta'; src: url('fontes/tipos/Loretta-MdDisplay.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Loretta'; src: url('fontes/tipos/Loretta-Light.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Loretta'; src: url('fontes/tipos/Loretta-Display-Italic300.woff2') format('woff2'); font-weight: 700; font-style: italic; font-display: swap; }
+    @font-face { font-family: 'Neue Haas'; src: url('fontes/tipos/NeueHaas-Roman.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Neue Haas'; src: url('fontes/tipos/NeueHaas-Medium.woff2') format('woff2'); font-weight: 500 600; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Neue Haas'; src: url('fontes/tipos/NeueHaas-Bold.woff2') format('woff2'); font-weight: 700 800; font-style: normal; font-display: swap; }
+
+    body { margin: 0; }
+
+    .ey-hero, .ey-hero *, .ey-hero *::before, .ey-hero *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    .ey-hero { width: 100%; overflow: hidden !important; background-color: #fef5e4; -webkit-font-smoothing: antialiased; }
+
+    /* ============ MOBILE (base) ============ */
+    /* MOBILE: a barra vira marquee infinito (não cabe em uma linha). Vira estática no >=768. */
+    .ey-hero-topbar { background-color: #67030b; height: 31px; overflow: hidden !important; display: flex; align-items: center; }
+    .ey-hero-topbar-track { display: flex; width: max-content; animation: ey-hero-topmarq 18s linear infinite; }
+    .ey-hero-topbar-group { display: flex; align-items: center; gap: 20px; padding-right: 20px; }
+    .ey-hero-topbar-item { font-family: 'Neue Haas', Arial, sans-serif; font-weight: 700; font-size: 10.88px; line-height: 16.32px; letter-spacing: 1.4144px; text-transform: uppercase; color: #fef5e4; white-space: nowrap; }
+    .ey-hero-topbar-dot { display: inline; }
+    @keyframes ey-hero-topmarq { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    @media (prefers-reduced-motion: reduce) { .ey-hero-topbar-track { animation: none; } }
+
+    .ey-hero-header { background-color: rgba(254,245,228,0.9); border-bottom: 0.8px solid rgba(103,3,11,0.12); position: relative; z-index: 30; }
+    .ey-hero-headerbar { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; max-width: 1440px; margin-left: auto; margin-right: auto; }
+    .ey-hero-logo { display: block; line-height: 0; }
+    .ey-hero-logo-img { width: 92px !important; height: 38px !important; display: block; object-fit: contain !important; }
+    .ey-hero-nav { display: none; }
+    .ey-hero-headcta { display: none; }
+    .ey-hero-burger { display: inline-flex; flex-direction: column; justify-content: center; gap: 5px; width: 40px; height: 40px; padding: 8px; background: none; border: none; cursor: pointer; }
+    .ey-hero-burger-line { display: block; width: 22px; height: 2px; background-color: #67030b; border-radius: 2px !important; transition: transform .25s ease, opacity .25s ease; }
+    .ey-hero-burger.ey-hero-burger-on .ey-hero-burger-line:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .ey-hero-burger.ey-hero-burger-on .ey-hero-burger-line:nth-child(2) { opacity: 0; }
+    .ey-hero-burger.ey-hero-burger-on .ey-hero-burger-line:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .ey-hero-menu { display: none; position: fixed; inset: 0; z-index: 90; background-color: #fef5e4; padding: 96px 24px 40px; flex-direction: column; align-items: center; gap: 28px; }
+    .ey-hero-menu.ey-hero-menu-open { display: flex; }
+    .ey-hero-menu-close { position: absolute; top: 18px; right: 16px; width: 44px; height: 44px; background: none; border: none; cursor: pointer; font-family: 'Neue Haas', Arial, sans-serif; font-size: 28px; color: #67030b; }
+    .ey-hero-menu-link { font-family: 'Neue Haas', Arial, sans-serif; font-weight: 700; font-size: 18px; line-height: 1.2; letter-spacing: 1.4px; text-transform: uppercase; color: #67030b; text-decoration: none; }
+    .ey-hero-menu-cta { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 16.8px 26.8px; border: 0.8px solid #c9a45a; border-radius: 999px !important; background-image: linear-gradient(90deg, #c8a04e 2.08%, #f6df95 36.09%, #fce4a6 67.2%, #c8a04e 104.66%); font-family: 'Neue Haas', Arial, sans-serif; font-weight: 800; font-size: 12.48px; line-height: 18.72px; letter-spacing: 0.8736px; text-transform: uppercase; color: #4a0309; text-decoration: none; filter: drop-shadow(0 12px 15px rgba(103,3,11,0.12)); }
+
+    .ey-hero-stage { position: relative; overflow: hidden !important; background-color: #fef5e4; }
+    .ey-hero-glow { display: none; }
+    .ey-hero-content { position: relative; z-index: 2; padding: 128% 10px 30px; max-width: 100%; margin-left: auto; margin-right: auto; display: flex; flex-direction: column; align-items: center; text-align: center; }
+    .ey-hero-kicker { font-family: 'Neue Haas', Arial, sans-serif; font-weight: 800; font-size: 10.88px; line-height: 15.232px; letter-spacing: 1.7408px; text-transform: uppercase; color: #67030b; }
+    .ey-hero-title { margin-top: 14px; font-family: 'Loretta', Georgia, serif; font-weight: 400; font-size: 26px; line-height: 29px; letter-spacing: -0.6px; color: #67030b; max-width: 720px; text-align: center; }
+    .ey-hero-title-it { font-family: 'Loretta', Georgia, serif; font-style: italic; font-weight: 700; color: #c46633; }
+    .ey-hero-sub { margin-top: 14px; font-family: 'Loretta', Georgia, serif; font-weight: 400; font-size: 17px; line-height: 23px; color: #9e3a1e; max-width: 460px; text-align: center; }
+    .ey-hero-para { margin-top: 14px; font-family: 'Neue Haas', Arial, sans-serif; font-weight: 400; font-size: 16px; line-height: 22.4px; color: rgba(74,3,9,0.78); max-width: 415px; text-align: center; }
+    .ey-hero-cta { margin-top: 24px; display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 16.8px 26.8px; border: 0.8px solid #c9a45a; border-radius: 1313.779px !important; background-image: linear-gradient(90deg, #c8a04e 2.08%, #f6df95 36.09%, #fce4a6 67.2%, #c8a04e 104.66%); font-family: 'Neue Haas', Arial, sans-serif; font-weight: 800; font-size: 12.48px; line-height: 18.72px; letter-spacing: 0.8736px; text-transform: uppercase; color: #4a0309; text-decoration: none; filter: drop-shadow(0 15.781px 19.726px rgba(103,3,11,0.12)); }
+    .ey-hero-note { margin-top: 14px; align-self: center; font-family: 'Neue Haas', Arial, sans-serif; font-weight: 600; font-size: 11.52px; line-height: 18.432px; letter-spacing: 0.4608px; color: #67030b; }
+    .ey-hero-stats { margin-top: 28px; width: 100%; max-width: 530px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; border-top: 0.8px solid rgba(103,3,11,0.2); padding-top: 22.8px; }
+    .ey-hero-stat { display: flex; flex-direction: column; align-items: center; text-align: center; }
+    .ey-hero-stat-num { font-family: 'Loretta', Georgia, serif; font-weight: 500; font-size: 23.2px; line-height: 29px; letter-spacing: -0.696px; text-transform: uppercase; color: #67030b; padding-bottom: 5px; }
+    .ey-hero-stat-label { font-family: 'Neue Haas', Arial, sans-serif; font-weight: 400; font-size: 10.56px; line-height: 13.2px; letter-spacing: 0.7392px; text-transform: uppercase; color: rgba(103,3,11,0.62); }
+    /* BG do mobile (arquivo 'bg mob top center cover'): cobre a seção inteira, ancorado no topo. */
+    .ey-hero-bg { display: contents; }
+    /* mobile: a foto NÃO cobre a seção inteira — fica ancorada no topo na proporção natural (9:16); o texto senta abaixo, sobre o véu creme */
+    .ey-hero-mulher { position: absolute; top: 0; left: 0; z-index: 1; display: block; width: 100% !important; height: auto !important; object-fit: cover !important; object-position: center top; margin-top: 0; }
+    /* véu creme na base: o texto do mobile senta sobre a parte desfocada da foto */
+    .ey-hero-veu { position: absolute; left: 0; right: 0; top: 0; height: 180vw; z-index: 1; background-image: linear-gradient(180deg, rgba(254,245,228,0) 52%, rgba(254,245,228,0.9) 80%, #fef5e4 100%); pointer-events: none; }
+
+    .ey-hero-marquee { background-color: #9e3a1e; height: 48px; overflow: hidden !important; display: flex; align-items: center; position: relative; z-index: 2; }
+    /* roda sempre — NÃO pausa no hover (decisão do cliente) */
+    .ey-hero-mtrack { display: flex; width: max-content; animation: ey-hero-marq 32s linear infinite; }
+    .ey-hero-mgroup { display: flex; align-items: center; gap: 26px; padding-right: 26px; }
+    .ey-hero-mitem { display: flex; align-items: center; gap: 7px; height: 30px; }
+    .ey-hero-micon { width: 44px !important; height: 11px !important; display: block; object-fit: contain !important; }
+    .ey-hero-mtext { font-family: 'Neue Haas', Arial, sans-serif; font-weight: 800; font-size: 10.88px; line-height: 16.32px; letter-spacing: 0.9792px; text-transform: uppercase; color: #ffffff; white-space: nowrap; }
+    @keyframes ey-hero-marq { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    @media (prefers-reduced-motion: reduce) { .ey-hero-mtrack { animation: none; } }
+
+    /* ============ TABLET (>=768) ============ */
+    @media (min-width: 768px) {
+      .ey-hero-topbar { height: auto; min-height: 31px; padding: 7px 24px; justify-content: center; }
+      .ey-hero-topbar-track { width: 100%; animation: none; justify-content: center; }
+      .ey-hero-topbar-group { padding-right: 0; }
+      .ey-hero-topbar-group + .ey-hero-topbar-group { display: none; }
+      .ey-hero-headerbar { padding: 12px 24px; }
+      .ey-hero-logo-img { width: 116px !important; height: 48px !important; }
+      .ey-hero-content { max-width: 720px; padding: 120% 24px 56px; }
+
+      .ey-hero-title { font-size: 44px; line-height: 46px; letter-spacing: -1.3px; margin-top: 18px; }
+      .ey-hero-sub { font-size: 20px; line-height: 27px; }
+      .ey-hero-para { font-size: 20px; line-height: 32px; margin-top: 16px; }
+      .ey-hero-note { margin-top: 14px; }
+    }
+
+    /* ============ DESKTOP (>=1024) ============ */
+    @media (min-width: 1024px) {
+      .ey-hero-headerbar { padding: 15.6px 32px; max-width: 1440px; }
+      .ey-hero-logo-img { width: 132px !important; height: 55px !important; }
+      .ey-hero-burger { display: none; }
+      .ey-hero-nav { display: flex; align-items: center; gap: 44px; background-color: rgba(255,255,255,0.95); border: 0.8px solid rgba(103,3,11,0.12); border-radius: 999px !important; padding: 11.8px 24.8px; }
+      .ey-hero-nav-link { position: relative; font-family: 'Neue Haas', Arial, sans-serif; font-weight: 700; font-size: 12.48px; line-height: 18.72px; letter-spacing: 0.9984px; text-transform: uppercase; color: #67030b; text-decoration: none; }
+      .ey-hero-nav-link::after { content: ""; position: absolute; left: 0; bottom: -5px; height: 1px; width: 0; background-color: #67030b; transition: width .25s ease; }
+      .ey-hero-nav-link:hover::after { width: 100%; }
+      .ey-hero-headcta { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 12.8px 20.8px; border: 0.8px solid #c9a45a; border-radius: 999px !important; background-image: linear-gradient(90deg, #c8a04e 2.08%, #f6df95 36.09%, #fce4a6 67.2%, #c8a04e 104.66%); font-family: 'Neue Haas', Arial, sans-serif; font-weight: 800; font-size: 10.88px; line-height: 16.32px; letter-spacing: 0.7616px; text-transform: uppercase; color: #4a0309; text-decoration: none; filter: drop-shadow(0 12px 15px rgba(103,3,11,0.12)); }
+
+      .ey-hero-stage { min-height: 0; background-color: #fef5e4; display: grid; grid-template-columns: minmax(0, 660px) minmax(0, 520px); column-gap: 96px; justify-content: center; align-items: start; padding: 72px 32px 80px; max-width: 1504px; margin-left: auto; margin-right: auto; }
+      /* desktop: véu creme pela esquerda garante leitura do texto sobre a cortina bordô */
+      .ey-hero-veu { display: none; top: 0; bottom: 0; left: 0; right: auto; width: 62%; height: 100%; max-height: none; background-image: linear-gradient(90deg, #fef5e4 0%, rgba(254,245,228,0.96) 34%, rgba(254,245,228,0.7) 58%, rgba(254,245,228,0) 100%); }
+      .ey-hero-marquee { height: 72px; }
+      .ey-hero-mitem { height: 43.2px; gap: 9px; }
+      .ey-hero-micon { width: 60px !important; height: 15px !important; }
+      .ey-hero-mgroup { gap: 40px; padding-right: 40px; }
+      /* figura contida: proporção 3:4, cantos da marca, sombra; acompanha a rolagem do formulário (sticky) */
+      .ey-hero-bg { display: block; position: sticky; top: 24px; align-self: start; z-index: 2; line-height: 0; }
+      .ey-hero-mulher { position: relative; inset: auto; transform: none; width: 100% !important; max-width: none !important; height: auto !important; aspect-ratio: 3 / 4; object-fit: cover !important; object-position: center top; margin-top: 0; z-index: 1; border-radius: 28px 160px 28px 28px !important; box-shadow: 0 44px 90px rgba(103,3,11,0.28), 0 12px 24px rgba(103,3,11,0.12); background-color: #f0b09e; }
+      .ey-hero-glow { display: block; position: absolute; left: calc(50% - 1200px); top: -640px; width: 1824px !important; height: 1824px !important; mix-blend-mode: soft-light; opacity: .9; background-image: url('assets/glow-ouro.svg'); background-size: 100% 100%; z-index: 2; pointer-events: none; }
+      .ey-hero-content { max-width: none; margin: 0; padding: 0; align-items: flex-start; text-align: left; z-index: 3; }
+      .ey-hero-inner { width: 618px; display: flex; flex-direction: column; align-items: flex-start; }
+      .ey-hero-title { font-size: 58px; line-height: 60px; letter-spacing: -1.8px; margin-top: 22px; max-width: 640px; text-align: left; }
+      .ey-hero-sub { margin-top: 22px; font-size: 22px; line-height: 30px; max-width: 520px; text-align: left; }
+      .ey-hero-para { font-size: 18px; line-height: 28px; margin-top: 20px; max-width: 470px; text-align: left; }
+      .ey-hero-cta { margin-top: 36px; min-height: 68.8px; padding: 22.094px 35.244px; font-size: 16.412px; line-height: 24.619px; letter-spacing: 1.1489px; }
+      .ey-hero-note { margin-top: 14px; margin-left: 35px; align-self: flex-start; }
+      .ey-hero-stats { margin-top: 40px; }
+      .ey-hero-stat { align-items: flex-start; text-align: left; }
+    }
+
+    /* Flash contínuo passando pelo botão (ciclo 1.5s) */
+    .ey-hero-headcta, .ey-hero-cta, .ey-hero-menu-cta { position: relative; overflow: hidden !important; }
+    .ey-hero-headcta::after, .ey-hero-cta::after, .ey-hero-menu-cta::after { content: ""; position: absolute; top: -60%; left: 0; width: 34%; height: 220%;
+      background-image: linear-gradient(100deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0) 100%);
+      transform: translateX(-180%) skewX(-18deg); animation: ey-hero-flash 1.5s ease-in-out infinite; pointer-events: none; }
+    @keyframes ey-hero-flash { 0% { transform: translateX(-180%) skewX(-18deg); } 62%, 100% { transform: translateX(430%) skewX(-18deg); } }
+    @media (prefers-reduced-motion: reduce) { .ey-hero-headcta::after, .ey-hero-cta::after, .ey-hero-menu-cta::after { animation: none; opacity: 0; } }
+    .ey-hero-headcta, .ey-hero-cta, .ey-hero-menu-cta { transition: transform .28s ease, box-shadow .28s ease; }
+    .ey-hero-headcta:hover, .ey-hero-cta:hover, .ey-hero-menu-cta:hover { transform: scale(1.035); }
+    @media (prefers-reduced-motion: reduce) { .ey-hero-headcta:hover, .ey-hero-cta:hover, .ey-hero-menu-cta:hover { transform: none; } }
+
+
+    /* ===== BLINDAGEM ELEMENTOR =====
+       O CSS global do tema preenche estados que a gente não declara (o famoso rosa no
+       hover/active). Aqui todo interativo tem :hover, :active e :focus explícitos. */
+    .ey-hero-cta, .ey-hero-cta:hover, .ey-hero-cta:active, .ey-hero-cta:focus, .ey-hero-cta:visited,
+    .ey-hero-headcta, .ey-hero-headcta:hover, .ey-hero-headcta:active, .ey-hero-headcta:focus, .ey-hero-headcta:visited,
+    .ey-hero-menu-cta, .ey-hero-menu-cta:hover, .ey-hero-menu-cta:active, .ey-hero-menu-cta:focus, .ey-hero-menu-cta:visited { background-image: linear-gradient(90deg, #c8a04e 2.08%, #f6df95 36.09%, #fce4a6 67.2%, #c8a04e 104.66%) !important; background-color: transparent !important; color: #4a0309 !important; border-color: #c9a45a !important; text-decoration: none !important; }
+    .ey-hero-nav-link, .ey-hero-nav-link:hover, .ey-hero-nav-link:active, .ey-hero-nav-link:focus, .ey-hero-nav-link:visited,
+    .ey-hero-menu-link, .ey-hero-menu-link:hover, .ey-hero-menu-link:active, .ey-hero-menu-link:focus, .ey-hero-menu-link:visited { color: #67030b !important; background: none !important; text-decoration: none !important; }
+    .ey-hero-logo, .ey-hero-logo:hover, .ey-hero-logo:active, .ey-hero-logo:focus { background: none !important; text-decoration: none !important; }
+    .ey-hero-burger, .ey-hero-burger:hover, .ey-hero-burger:active, .ey-hero-burger:focus,
+    .ey-hero-menu-close, .ey-hero-menu-close:hover, .ey-hero-menu-close:active, .ey-hero-menu-close:focus { background: none !important; background-color: transparent !important; border: none !important; box-shadow: none !important; color: #67030b !important; }
+    .ey-hero-logo, .ey-hero-logo:hover, .ey-hero-logo:active, .ey-hero-logo:focus { color: #67030b !important; }
+
+    /* Anti-flash: tudo que o animations.js anima começa oculto (o GSAP vem por CDN).
+       Sem JS — ou sem GSAP em 3s — a flag ey-js sai e o conteúdo aparece. */
+    html.ey-js .ey-hero-kicker, html.ey-js .ey-hero-title, html.ey-js .ey-hero-sub, html.ey-js .ey-hero-para, html.ey-js .ey-hero-cta, html.ey-js .ey-hero-note, html.ey-js .ey-hero-stat { opacity: 0; }
+    @media (prefers-reduced-motion: reduce) { html.ey-js .ey-hero-kicker, html.ey-js .ey-hero-title, html.ey-js .ey-hero-sub, html.ey-js .ey-hero-para, html.ey-js .ey-hero-cta, html.ey-js .ey-hero-note, html.ey-js .ey-hero-stat { opacity: 1; } }
+
+    /* fade-in da foto da hero (CSS puro; independe do GSAP) */
+    .ey-hero-mulher { animation: ey-hero-foto 1.4s cubic-bezier(.22,.61,.36,1) both; }
+    @keyframes ey-hero-foto { from { opacity: 0; transform: translateY(18px) scale(1.02); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    @media (prefers-reduced-motion: reduce) { .ey-hero-mulher { animation: none; } }
+    /* ===== CAPTURA: benefícios + formulário ===== */
+    .ey-hero-seg { margin-top: 14px; font-family: 'Neue Haas', Arial, sans-serif; font-weight: 400; font-size: 15px; line-height: 21px; color: rgba(74,3,9,0.78); max-width: 470px; text-align: center; }
+    .ey-hero-benef-lead { margin-top: 18px; font-family: 'Neue Haas', Arial, sans-serif; font-weight: 800; font-size: 10.88px; line-height: 15.232px; letter-spacing: 1.7408px; text-transform: uppercase; color: #67030b; }
+    .ey-hero-benef { margin-top: 8px; width: 100%; max-width: 470px; display: flex; flex-direction: column; }
+    .ey-hero-benef-item { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 0.8px solid rgba(103,3,11,0.16); font-family: 'Neue Haas', Arial, sans-serif; font-weight: 500; font-size: 14px; line-height: 19px; color: #4a0309; text-align: left; }
+    .ey-hero-benef-icone { flex: 0 0 34px; width: 34px !important; height: 9px !important; object-fit: contain !important; display: block; }
+    .ey-hero-form { margin-top: 22px; width: 100%; max-width: 470px; background-color: rgba(255,255,255,0.55); border: 0.8px solid rgba(103,3,11,0.14); border-radius: 22px !important; padding: 18px 14px 16px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 24px 50px rgba(103,3,11,0.08); text-align: left; }
+    .ey-hero-form-lead { font-family: 'Neue Haas', Arial, sans-serif; font-weight: 700; font-size: 14px; line-height: 19px; color: #67030b; margin-bottom: 2px; }
+    .ey-hero-form-label { font-family: 'Neue Haas', Arial, sans-serif; font-weight: 700; font-size: 10px; line-height: 14px; letter-spacing: 1px; text-transform: uppercase; color: #9e3a1e; display: block; margin-bottom: 4px; }
+    .ey-hero-form-input { width: 100%; min-height: 48px; padding: 12px 14px; border: 0.8px solid rgba(103,3,11,0.28); border-radius: 12px !important; background-color: #fffdf8; font-family: 'Neue Haas', Arial, sans-serif; font-weight: 400; font-size: 16px; line-height: 22px; color: #4a0309; outline: none; -webkit-appearance: none; appearance: none; }
+    .ey-hero-form-input:focus { border-color: #c46633; box-shadow: 0 0 0 3px rgba(196,102,51,0.16); }
+    .ey-hero-form-input::placeholder { color: rgba(74,3,9,0.38); }
+    .ey-hero-form-lgpd { display: flex; align-items: flex-start; gap: 8px; font-family: 'Neue Haas', Arial, sans-serif; font-weight: 400; font-size: 12px; line-height: 17px; color: rgba(74,3,9,0.78); cursor: pointer; }
+    .ey-hero-form-check { flex: 0 0 16px; width: 16px; height: 16px; margin-top: 1px; accent-color: #67030b; }
+    .ey-hero-form-lgpd-link { color: #67030b !important; text-decoration: underline !important; }
+    .ey-hero-form-cta { margin-top: 4px; width: 100%; cursor: pointer; border: 0.8px solid #c9a45a; }
+    .ey-hero-form-erro { display: none; font-family: 'Neue Haas', Arial, sans-serif; font-weight: 500; font-size: 12px; line-height: 17px; color: #9e3a1e; }
+    .ey-hero-form-erro-on { display: block; }
+    .ey-hero-trust { margin-top: 14px; font-family: 'Neue Haas', Arial, sans-serif; font-weight: 400; font-size: 12px; line-height: 17px; color: rgba(74,3,9,0.62); max-width: 470px; text-align: center; }
+    @media (min-width: 1024px) {
+      .ey-hero-seg { font-size: 16px; line-height: 24px; text-align: left; margin-top: 18px; }
+      .ey-hero-benef-item { font-size: 15px; line-height: 21px; padding: 10px 0; }
+      .ey-hero-form { margin-top: 26px; padding: 22px 20px 20px; }
+      .ey-hero-trust { text-align: left; }
+      .ey-hero-inner { width: 640px; }
+    }
+    html.ey-js .ey-hero-seg, html.ey-js .ey-hero-benef-lead, html.ey-js .ey-hero-benef-item, html.ey-js .ey-hero-form, html.ey-js .ey-hero-trust { opacity: 0; }
+    @media (prefers-reduced-motion: reduce) { html.ey-js .ey-hero-seg, html.ey-js .ey-hero-benef-lead, html.ey-js .ey-hero-benef-item, html.ey-js .ey-hero-form, html.ey-js .ey-hero-trust { opacity: 1; } }
+  </style>
+
+  <script>
+  /* Liga a pré-ocultação só quando há JS, e garante que o conteúdo apareça
+     mesmo se o GSAP/CDN falhar (3s de paciência) ou se o usuário pediu menos movimento. */
+  (function () {
+    var r = document.documentElement;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    r.classList.add('ey-js');
+    setTimeout(function () { if (!window.gsap) r.classList.remove('ey-js'); }, 3000);
+  })();
+  </script>
+
+  <div class="ey-hero-topbar">
+    <div class="ey-hero-topbar-track">
+      <div class="ey-hero-topbar-group">
+      <span class="ey-hero-topbar-item">EYVE · Grupo da Segunda Fase</span>
+      <span class="ey-hero-topbar-item ey-hero-topbar-dot">•</span>
+      <span class="ey-hero-topbar-item">Pré-lançamento Segunda Fase</span>
+      <span class="ey-hero-topbar-item ey-hero-topbar-dot">•</span>
+      <span class="ey-hero-topbar-item">Grupo fechado no WhatsApp</span>
+      </div>
+      <div class="ey-hero-topbar-group" aria-hidden="true">
+      <span class="ey-hero-topbar-item">EYVE · Grupo da Segunda Fase</span>
+      <span class="ey-hero-topbar-item ey-hero-topbar-dot">•</span>
+      <span class="ey-hero-topbar-item">Pré-lançamento Segunda Fase</span>
+      <span class="ey-hero-topbar-item ey-hero-topbar-dot">•</span>
+      <span class="ey-hero-topbar-item">Grupo fechado no WhatsApp</span>
+      </div>
+    </div>
+  </div>
+
+  <header class="ey-hero-header">
+    <div class="ey-hero-headerbar">
+      <a class="ey-hero-logo" href="#ey-topo" aria-label="EYVE — início">
+        <img class="ey-hero-logo-img" src="assets/logo-eyve-bordo.svg" alt="EYVE" width="132" height="55">
+      </a>
+      <nav class="ey-hero-nav" aria-label="Navegação principal">
+        <a class="ey-hero-nav-link" href="#ey-form">Entrar no grupo</a>
+        <a class="ey-hero-nav-link" href="#ey-faq">Dúvidas</a>
+      </nav>
+      <a class="ey-hero-headcta" href="#ey-form">Quero entrar no grupo</a>
+      <button class="ey-hero-burger" type="button" aria-label="Abrir menu" aria-expanded="false">
+        <span class="ey-hero-burger-line"></span><span class="ey-hero-burger-line"></span><span class="ey-hero-burger-line"></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="ey-hero-menu" aria-hidden="true">
+    <button class="ey-hero-menu-close" type="button" aria-label="Fechar menu">✕</button>
+    <a class="ey-hero-menu-link" href="#ey-form">Entrar no grupo</a>
+    <a class="ey-hero-menu-link" href="#ey-faq">Dúvidas</a>
+    <a class="ey-hero-menu-cta" href="#ey-form">Quero entrar no grupo</a>
+  </div>
+
+  <div class="ey-hero-stage">
+    <div class="ey-hero-glow"></div>
+    <div class="ey-hero-content">
+      <div class="ey-hero-inner">
+        <p class="ey-hero-kicker">EYVE · Grupo da Segunda Fase</p>
+        <h1 class="ey-hero-title">Todo mundo celebra o antes e o depois. Quase ninguém fala sobre o que acontece <span class="ey-hero-title-it">depois do depois.</span></h1>
+        <p class="ey-hero-sub">Entre no grupo oficial da Segunda Fase EYVE e acompanhe o lançamento do Sistema Segunda Fase antes de todo mundo.</p>
+        <p class="ey-hero-seg">Esse grupo é pra você se já usou GLP-1, está na fase pós-uso e sente a fome voltando aos poucos. Se você já conquistou o resultado e agora quer entender como sustentar essa nova fase, é pra você.</p>
+        <p class="ey-hero-benef-lead">Ao entrar no grupo, você recebe:</p>
+        <div class="ey-hero-benef">
+          <p class="ey-hero-benef-item"><img class="ey-hero-benef-icone" src="assets/sache-mini.png" alt="" width="34" height="9">Acesso antecipado ao lançamento da EYVE</p>
+          <p class="ey-hero-benef-item"><img class="ey-hero-benef-icone" src="assets/sache-mini.png" alt="" width="34" height="9">Conteúdo exclusivo sobre a Segunda Fase, antes de virar post</p>
+          <p class="ey-hero-benef-item"><img class="ey-hero-benef-icone" src="assets/sache-mini.png" alt="" width="34" height="9">Aviso em primeira mão quando o primeiro lote abrir</p>
+          <p class="ey-hero-benef-item"><img class="ey-hero-benef-icone" src="assets/sache-mini.png" alt="" width="34" height="9">Condições especiais reservadas pra quem já está no grupo</p>
+        </div>
+        <form class="ey-hero-form" id="ey-form" action="#" method="post" novalidate>
+          <p class="ey-hero-form-lead">Preencha os dados abaixo pra garantir sua vaga:</p>
+          <div class="ey-hero-form-campo"><label class="ey-hero-form-label" for="ey-nome">Nome</label><input class="ey-hero-form-input" id="ey-nome" name="nome" type="text" autocomplete="name" placeholder="Seu nome" required></div>
+          <div class="ey-hero-form-campo"><label class="ey-hero-form-label" for="ey-zap">WhatsApp (com DDD)</label><input class="ey-hero-form-input" id="ey-zap" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000" required></div>
+          <div class="ey-hero-form-campo"><label class="ey-hero-form-label" for="ey-email">E-mail (opcional)</label><input class="ey-hero-form-input" id="ey-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="seu@email.com"></div>
+          <label class="ey-hero-form-lgpd"><input class="ey-hero-form-check" type="checkbox" name="lgpd" required> <span class="ey-hero-form-lgpd-texto">Autorizo a EYVE a usar meus dados só pra me avisar sobre o lançamento e enviar o link do grupo, conforme a <a class="ey-hero-form-lgpd-link" href="#__POLITICA_PRIVACIDADE_EYVE__" target="_blank" rel="noopener">política de privacidade</a>.</span></label>
+          <p class="ey-hero-form-erro" aria-live="polite">Preencha nome e WhatsApp e marque o consentimento pra continuar.</p>
+          <button class="ey-hero-cta ey-hero-form-cta" type="submit">Quero entrar no grupo</button>
+          <p class="ey-hero-note" style="align-self:center;margin-left:0;">Grupo fechado no WhatsApp. Você pode sair quando quiser.</p>
+        </form>
+        <p class="ey-hero-trust">Seus dados ficam só entre você e a EYVE. Usados apenas pra te avisar sobre o lançamento e te enviar o link do grupo. Sem venda pra terceiros, sem mensagem fora do combinado.</p>
+      </div>
+    </div>
+    <picture class="ey-hero-bg">
+      <img class="ey-hero-mulher" src="assets/hero-mob.webp" alt="Mulher segurando o pouch EYVE Double Balance" width="1000" height="1792" fetchpriority="high">
+    </picture>
+    <span class="ey-hero-veu" aria-hidden="true"></span>
+  </div>
+
+  <div class="ey-hero-marquee" aria-label="O que você recebe no grupo">
+    <div class="ey-hero-mtrack">
+      <div class="ey-hero-mgroup">
+        <div class="ey-hero-mitem"><img class="ey-hero-micon" src="assets/sache-mini.png" alt="" width="60" height="15"><span class="ey-hero-mtext">Acesso antecipado ao lançamento da EYVE</span></div>
+        <div class="ey-hero-mitem"><img class="ey-hero-micon" src="assets/sache-mini.png" alt="" width="60" height="15"><span class="ey-hero-mtext">Conteúdo exclusivo sobre a Segunda Fase</span></div>
+        <div class="ey-hero-mitem"><img class="ey-hero-micon" src="assets/sache-mini.png" alt="" width="60" height="15"><span class="ey-hero-mtext">Aviso em primeira mão quando o primeiro lote abrir</span></div>
+        <div class="ey-hero-mitem"><img class="ey-hero-micon" src="assets/sache-mini.png" alt="" width="60" height="15"><span class="ey-hero-mtext">Condições especiais pra quem já está no grupo</span></div>
+      </div>
+      <div class="ey-hero-mgroup" aria-hidden="true">
+        <div class="ey-hero-mitem"><img class="ey-hero-micon" src="assets/sache-mini.png" alt="" width="60" height="15"><span class="ey-hero-mtext">Acesso antecipado ao lançamento da EYVE</span></div>
+        <div class="ey-hero-mitem"><img class="ey-hero-micon" src="assets/sache-mini.png" alt="" width="60" height="15"><span class="ey-hero-mtext">Conteúdo exclusivo sobre a Segunda Fase</span></div>
+        <div class="ey-hero-mitem"><img class="ey-hero-micon" src="assets/sache-mini.png" alt="" width="60" height="15"><span class="ey-hero-mtext">Aviso em primeira mão quando o primeiro lote abrir</span></div>
+        <div class="ey-hero-mitem"><img class="ey-hero-micon" src="assets/sache-mini.png" alt="" width="60" height="15"><span class="ey-hero-mtext">Condições especiais pra quem já está no grupo</span></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (function () {
+    function eyHeroInit(root) {
+      var burger = root.querySelector('.ey-hero-burger');
+      var menu = root.querySelector('.ey-hero-menu');
+      var close = root.querySelector('.ey-hero-menu-close');
+      if (!burger || !menu) return;
+      function setOpen(open) {
+        menu.classList.toggle('ey-hero-menu-open', open);
+        burger.classList.toggle('ey-hero-burger-on', open);
+        burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+        menu.setAttribute('aria-hidden', open ? 'false' : 'true');
+        document.body.style.overflow = open ? 'hidden' : '';
+        if (window.lenis) { open ? window.lenis.stop() : window.lenis.start(); }
+      }
+      burger.addEventListener('click', function () { setOpen(!menu.classList.contains('ey-hero-menu-open')); });
+      if (close) close.addEventListener('click', function () { setOpen(false); });
+      menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { setOpen(false); }); });
+    }
+    function eyHeroSmooth() {
+      document.querySelectorAll('.ey-hero a[href^="#"]').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          var id = a.getAttribute('href');
+          if (id.length < 2) return;
+          var alvo = document.querySelector(id);
+          if (!alvo) return;
+          if (window.lenis) return;               // o Lenis cuida das âncoras (animations.js)
+          e.preventDefault();
+          alvo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+    }
+    function boot() { document.querySelectorAll('.ey-hero').forEach(eyHeroInit); eyHeroSmooth(); }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+  })();
+  </script>
+  <script>
+  (function () {
+    /* Fluxo do formulário: nome + WhatsApp obrigatórios, e-mail opcional, consentimento LGPD obrigatório.
+       Ao enviar, redireciona direto pro link de convite do grupo (sem tela de "aguarde aprovação").
+       ⚑ PENDENTE: destino dos leads — troque o fetch() abaixo pelo endpoint da planilha/CRM/automação. */
+    var GRUPO = '#__WHATSAPP_GRUPO_EYVE__';
+    function boot() {
+      var form = document.getElementById('ey-form'); if (!form) return;
+      var erro = form.querySelector('.ey-hero-form-erro');
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var nome = form.nome.value.trim(), zap = form.whatsapp.value.replace(/\D/g, ''), ok = form.lgpd.checked;
+        if (!nome || zap.length < 10 || !ok) { erro.classList.add('ey-hero-form-erro-on'); return; }
+        erro.classList.remove('ey-hero-form-erro-on');
+        var dados = { nome: nome, whatsapp: zap, email: form.email.value.trim(), origem: 'captura-segunda-fase' };
+        var vai = function () { if (GRUPO.indexOf('#__') === 0) { alert('Link do grupo ainda não configurado (#__WHATSAPP_GRUPO_EYVE__).'); return; } window.location.href = GRUPO; };
+        /* fetch('URL-DO-DESTINO-DOS-LEADS', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dados) }).finally(vai); */
+        vai();
+      });
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+  })();
+  </script>
+</section>
+
+
+<!-- ============================================================
+  EYVE · Segunda Fase — PÁGINA DE CAPTURA · C02 MINI FAQ (tira dúvida rápido antes do clique) | Okya Designs
+  Base: s11 da página de vendas.
+  Sobrepõe a seção anterior em -39px (radius 54 no topo). Acordeão funcional.
+============================================================ -->
+<section class="ey-faq" id="ey-faq">
+  <style>
+    /* Fontes da marca EYVE (arquivos licenciados do cliente, subset latin em woff2 — ver fontes/tipos/).
+       Loretta (display serif): 400 = Md Display (títulos) · 500 = Light (números/citações) · 700 itálico = Display Italic (destaques).
+       Neue Haas Grotesk Display Pro (texto): 400 = 55 Roman · 500-600 = 65 Medium · 700-800 = 75 Bold. */
+    @font-face { font-family: 'Loretta'; src: url('fontes/tipos/Loretta-MdDisplay.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Loretta'; src: url('fontes/tipos/Loretta-Light.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Loretta'; src: url('fontes/tipos/Loretta-Display-Italic300.woff2') format('woff2'); font-weight: 700; font-style: italic; font-display: swap; }
+    @font-face { font-family: 'Neue Haas'; src: url('fontes/tipos/NeueHaas-Roman.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Neue Haas'; src: url('fontes/tipos/NeueHaas-Medium.woff2') format('woff2'); font-weight: 500 600; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Neue Haas'; src: url('fontes/tipos/NeueHaas-Bold.woff2') format('woff2'); font-weight: 700 800; font-style: normal; font-display: swap; }
+
+    body { margin: 0; }
+    .ey-faq, .ey-faq *, .ey-faq *::before, .ey-faq *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    .ey-faq { width: 100%; overflow: hidden !important; background-color: #f7efe3; border-radius: 0 !important; margin-top: 0; position: relative; z-index: 2; -webkit-font-smoothing: antialiased; }
+
+    /* ============ MOBILE (base) ============ */
+    .ey-faq-inner { padding: 30px 10px 30px; display: flex; flex-direction: column; }
+    .ey-faq-intro { display: flex; flex-direction: column; align-items: center; text-align: center; max-width: 649px; }
+    .ey-faq-kicker { font-family: 'Neue Haas', Arial, sans-serif; font-weight: 800; font-size: 10.88px; line-height: 15.232px; letter-spacing: 1.7408px; text-transform: uppercase; color: #67030b; }
+    .ey-faq-title { margin-top: 22px; font-family: 'Loretta', Georgia, serif; font-weight: 400; font-size: 26px; line-height: 29px; letter-spacing: -0.6px; color: #67030b; max-width: 567px; }
+    .ey-faq-sub { margin-top: 20px; font-family: 'Neue Haas', Arial, sans-serif; font-weight: 400; font-size: 16px; line-height: 22.4px; color: #67030b; }
+    .ey-faq-cta { order: 3; align-self: center; margin-top: 24px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px; padding: 14px 20px; white-space: nowrap; border: 0.8px solid #c9a45a; border-radius: 999px !important; background-image: linear-gradient(90deg, #c8a04e 2.08%, #f6df95 36.09%, #fce4a6 67.2%, #c8a04e 104.66%); font-family: 'Neue Haas', Arial, sans-serif; font-weight: 800; font-size: 10px; line-height: 15px; letter-spacing: 0.7px; text-transform: uppercase; color: #4a0309; text-decoration: none; filter: drop-shadow(0 12px 15px rgba(103,3,11,0.12)); }
+    .ey-faq-cta-icone { width: 14px; height: 15.7px; display: block; flex: 0 0 auto; }
+    .ey-faq-lista { margin-top: 36px; width: 100%; display: flex; flex-direction: column; gap: 10px; }
+    .ey-faq-item { background-color: rgba(254,245,228,0.44); border: 0.8px solid rgba(103,3,11,0.11); border-radius: 16px !important; overflow: hidden !important; }
+    .ey-faq-summary { width: 100%; min-height: 74px; padding: 14px 22.8px; display: flex; align-items: center; justify-content: space-between; gap: 16px; background: none; border: none; cursor: pointer; text-align: left; }
+    .ey-faq-pergunta { font-family: 'Neue Haas', Arial, sans-serif; font-weight: 700; font-size: 16px; line-height: 22.4px; color: #67030b; }
+    .ey-faq-mais { flex: 0 0 26px; width: 26px; height: 26px; border: 0.8px solid #67030b; border-radius: 13px !important; display: flex; align-items: center; justify-content: center; font-family: 'Neue Haas', Arial, sans-serif; font-weight: 700; font-size: 16px; line-height: 24px; color: #67030b; transition: transform .25s ease; }
+    .ey-faq-summary:hover .ey-faq-mais { transform: scale(1.14); }
+    .ey-faq-item-open .ey-faq-mais { transform: rotate(45deg); }
+    .ey-faq-item-open .ey-faq-summary:hover .ey-faq-mais { transform: rotate(45deg) scale(1.14); }
+    .ey-faq-resposta { max-height: 0; overflow: hidden !important; transition: max-height .3s ease; }
+    .ey-faq-resposta-texto { padding: 0 52px 24px 22.8px; font-family: 'Neue Haas', Arial, sans-serif; font-weight: 400; font-size: 16px; line-height: 22.4px; color: #67030b; max-width: 660px; }
+
+    /* ============ TABLET (>=768) ============ */
+    @media (min-width: 768px) {
+      .ey-faq-inner { padding: 56px 24px; }
+      .ey-faq-title { font-size: 44px; line-height: 46px; letter-spacing: -1.3px; }
+    }
+
+    /* ============ DESKTOP (>=1024) ============ */
+    @media (min-width: 1024px) {
+      /* valores do Figma restaurados (o mobile usa a escala do cliente) */
+      .ey-faq-sub { font-size: 16px; line-height: 25.6px; }
+      .ey-faq-pergunta { font-size: 16px; line-height: 24px; }
+      .ey-faq-resposta-texto { font-size: 16px; line-height: 25.6px; }
+      .ey-faq-inner { padding: 150px 32px; max-width: 1504px; margin-left: auto; margin-right: auto; display: grid; grid-template-columns: minmax(0, 649px) minmax(0, 734.64px); grid-template-rows: auto 1fr; column-gap: 76px; align-items: start; justify-content: center; }
+      .ey-faq-intro { grid-column: 1; grid-row: 1; align-items: flex-start; text-align: left; }
+      .ey-faq-lista { grid-column: 2; grid-row: 1 / span 2; }
+      .ey-faq-cta { grid-column: 1; grid-row: 2; order: 0; align-self: start; justify-self: start; margin-top: 32px; padding: 16.8px 26.8px; font-size: 12.48px; line-height: 18.72px; letter-spacing: 0.8736px; }
+      .ey-faq-cta-icone { width: 17.396px; height: 19.562px; }
+      .ey-faq-title { font-size: 64px; line-height: 64px; letter-spacing: -2px; }
+      .ey-faq-lista { margin-top: 0; }
+    }
+
+    /* Flash contínuo passando pelo botão (ciclo 1.5s) */
+    .ey-faq-cta { position: relative; overflow: hidden !important; }
+    .ey-faq-cta::after { content: ""; position: absolute; top: -60%; left: 0; width: 34%; height: 220%;
+      background-image: linear-gradient(100deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0) 100%);
+      transform: translateX(-180%) skewX(-18deg); animation: ey-faq-flash 1.5s ease-in-out infinite; pointer-events: none; }
+    @keyframes ey-faq-flash { 0% { transform: translateX(-180%) skewX(-18deg); } 62%, 100% { transform: translateX(430%) skewX(-18deg); } }
+    @media (prefers-reduced-motion: reduce) { .ey-faq-cta::after { animation: none; opacity: 0; } }
+    .ey-faq-cta { transition: transform .28s ease, box-shadow .28s ease; }
+    .ey-faq-cta:hover { transform: scale(1.035); }
+    @media (prefers-reduced-motion: reduce) { .ey-faq-cta:hover { transform: none; } }
+
+    /* ===== BLINDAGEM ELEMENTOR =====
+       Era aqui que o rosa aparecia: <button> sem :hover/:active declarados. */
+    .ey-faq-cta, .ey-faq-cta:hover, .ey-faq-cta:active, .ey-faq-cta:focus, .ey-faq-cta:visited { background-image: linear-gradient(90deg, #c8a04e 2.08%, #f6df95 36.09%, #fce4a6 67.2%, #c8a04e 104.66%) !important; background-color: transparent !important; color: #4a0309 !important; border-color: #c9a45a !important; text-decoration: none !important; }
+    .ey-faq-summary, .ey-faq-summary:hover, .ey-faq-summary:active, .ey-faq-summary:focus { background: none !important; background-color: transparent !important; border: none !important; box-shadow: none !important; outline: none; }
+    .ey-faq-summary:hover .ey-faq-pergunta, .ey-faq-summary:active .ey-faq-pergunta { color: #67030b !important; }
+    .ey-faq-mais, .ey-faq-summary:hover .ey-faq-mais, .ey-faq-summary:active .ey-faq-mais { background: none !important; background-color: transparent !important; color: #67030b !important; border-color: #67030b !important; }
+    .ey-faq-item, .ey-faq-item:hover, .ey-faq-item:active { background-color: rgba(254,245,228,0.44) !important; }
+    .ey-faq-summary, .ey-faq-summary *, .ey-faq-summary:hover *, .ey-faq-summary:active * { color: #67030b !important; }
+
+    /* Anti-flash: tudo que o animations.js anima começa oculto (o GSAP vem por CDN).
+       Sem JS — ou sem GSAP em 3s — a flag ey-js sai e o conteúdo aparece. */
+    html.ey-js .ey-faq-kicker, html.ey-js .ey-faq-title, html.ey-js .ey-faq-sub, html.ey-js .ey-faq-item, html.ey-js .ey-faq-cta { opacity: 0; }
+    @media (prefers-reduced-motion: reduce) { html.ey-js .ey-faq-kicker, html.ey-js .ey-faq-title, html.ey-js .ey-faq-sub, html.ey-js .ey-faq-item, html.ey-js .ey-faq-cta { opacity: 1; } }
+  </style>
+
+  <div class="ey-faq-inner">
+    <div class="ey-faq-intro">
+      <p class="ey-faq-kicker">Mini FAQ</p>
+      <h2 class="ey-faq-title">Tira dúvida rápido antes do clique</h2>
+      <p class="ey-faq-sub">Grupo fechado no WhatsApp. Você pode sair quando quiser.</p>
+    </div>
+    <div class="ey-faq-lista">
+      <div class="ey-faq-item">
+        <button class="ey-faq-summary" type="button" aria-expanded="false"><span class="ey-faq-pergunta">Vou receber muita mensagem?</span><span class="ey-faq-mais">+</span></button>
+        <div class="ey-faq-resposta"><p class="ey-faq-resposta-texto">Só avisos importantes sobre o lançamento. Sem spam diário.</p></div>
+      </div>
+      <div class="ey-faq-item">
+        <button class="ey-faq-summary" type="button" aria-expanded="false"><span class="ey-faq-pergunta">É pago pra entrar no grupo?</span><span class="ey-faq-mais">+</span></button>
+        <div class="ey-faq-resposta"><p class="ey-faq-resposta-texto">Não. Entrar no grupo é gratuito.</p></div>
+      </div>
+      <div class="ey-faq-item">
+        <button class="ey-faq-summary" type="button" aria-expanded="false"><span class="ey-faq-pergunta">Quando começa o lançamento?</span><span class="ey-faq-mais">+</span></button>
+        <div class="ey-faq-resposta"><p class="ey-faq-resposta-texto">[PENDENTE — confirmar data de lançamento antes de publicar]</p></div>
+      </div>
+    </div>
+    <a class="ey-faq-cta" href="#ey-form">Entrar no grupo da Segunda Fase</a>
+  </div>
+
+  <script>
+  (function () {
+    function eyFaqInit(root) {
+      root.querySelectorAll('.ey-faq-item').forEach(function (item) {
+        var btn = item.querySelector('.ey-faq-summary');
+        var resp = item.querySelector('.ey-faq-resposta');
+        if (!btn || !resp) return;
+        btn.addEventListener('click', function () {
+          var open = item.classList.contains('ey-faq-item-open');
+          root.querySelectorAll('.ey-faq-item-open').forEach(function (o) {
+            o.classList.remove('ey-faq-item-open');
+            o.querySelector('.ey-faq-summary').setAttribute('aria-expanded', 'false');
+            o.querySelector('.ey-faq-resposta').style.maxHeight = '0px';
+          });
+          if (!open) {
+            item.classList.add('ey-faq-item-open');
+            btn.setAttribute('aria-expanded', 'true');
+            resp.style.maxHeight = resp.scrollHeight + 'px';
+          }
+        });
+      });
+    }
+    function boot() { document.querySelectorAll('.ey-faq').forEach(eyFaqInit); }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+  })();
+  </script>
+</section>
+
+
+<!-- ============================================================
+  EYVE · Segunda Fase — PÁGINA DE CAPTURA · C03 FECHAMENTO (refrão + CTA final) | Okya Designs
+  Base: s13 da página de vendas.
+============================================================ -->
+<section class="ey-cta">
+  <style>
+    /* Fontes da marca EYVE (arquivos licenciados do cliente, subset latin em woff2 — ver fontes/tipos/).
+       Loretta (display serif): 400 = Md Display (títulos) · 500 = Light (números/citações) · 700 itálico = Display Italic (destaques).
+       Neue Haas Grotesk Display Pro (texto): 400 = 55 Roman · 500-600 = 65 Medium · 700-800 = 75 Bold. */
+    @font-face { font-family: 'Loretta'; src: url('fontes/tipos/Loretta-MdDisplay.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Loretta'; src: url('fontes/tipos/Loretta-Light.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Loretta'; src: url('fontes/tipos/Loretta-Display-Italic300.woff2') format('woff2'); font-weight: 700; font-style: italic; font-display: swap; }
+    @font-face { font-family: 'Neue Haas'; src: url('fontes/tipos/NeueHaas-Roman.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Neue Haas'; src: url('fontes/tipos/NeueHaas-Medium.woff2') format('woff2'); font-weight: 500 600; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'Neue Haas'; src: url('fontes/tipos/NeueHaas-Bold.woff2') format('woff2'); font-weight: 700 800; font-style: normal; font-display: swap; }
+
+    body { margin: 0; }
+    .ey-cta, .ey-cta *, .ey-cta *::before, .ey-cta *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    .ey-cta { width: 100%; overflow: hidden !important; background-color: #9e3a1e; position: relative; -webkit-font-smoothing: antialiased; }
+    .ey-cta-bg { position: absolute; inset: 0; z-index: 0; }
+    .ey-cta-bg-img { width: 100% !important; height: 100% !important; object-fit: cover !important; display: block; }
+    .ey-cta-bg-shade { position: absolute; inset: 0; background-image: linear-gradient(180deg, rgba(74,3,9,0.35) 0%, rgba(74,3,9,0.55) 100%); }
+
+    /* ============ MOBILE (base) ============ */
+    .ey-cta-inner { position: relative; z-index: 1; padding: 30px 10px 30px; display: flex; flex-direction: column; align-items: center; }
+    .ey-cta-selo { width: 150px !important; height: auto !important; display: block; filter: drop-shadow(0 14px 18px rgba(32,6,0,0.35)); transform: rotate(-14deg); }
+    .ey-cta-refrao { margin-top: 22px; font-family: 'Neue Haas', Arial, sans-serif; font-weight: 400; font-size: 16px; line-height: 22.4px; color: #fef5e4; text-align: center; max-width: 720px; }
+    .ey-cta-b { font-weight: 700; }
+    .ey-cta-tagline { margin-top: 22px; font-family: 'Loretta', Georgia, serif; font-style: italic; font-weight: 700; font-size: 18px; line-height: 24px; color: #fce4a6; text-align: center; }
+    .ey-cta-title { margin-top: 26px; margin-bottom: 0; font-family: 'Loretta', Georgia, serif; font-weight: 400; font-size: 26px; line-height: 29px; letter-spacing: -0.6px; color: #fef5e4; text-align: center; max-width: 820px; }
+    .ey-cta-botao { margin-top: 30px; }
+    .ey-cta-title-it { font-family: 'Loretta', Georgia, serif; font-style: italic; font-weight: 700; color: #fce4a6; }
+    .ey-cta-botao { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 16.8px 26.8px; border: 0.8px solid #c9a45a; border-radius: 999px !important; background-image: linear-gradient(90deg, #c8a04e 2.08%, #f6df95 36.09%, #fce4a6 67.2%, #c8a04e 104.66%); font-family: 'Neue Haas', Arial, sans-serif; font-weight: 800; font-size: 12.48px; line-height: 18.72px; letter-spacing: 0.8736px; text-transform: uppercase; color: #4a0309; text-decoration: none; filter: drop-shadow(0 12px 15px rgba(103,3,11,0.12)); }
+
+    /* ============ TABLET (>=768) ============ */
+    @media (min-width: 768px) {
+      .ey-cta-inner { padding: 56px 24px; }
+      .ey-cta-selo { width: 190px !important; height: auto !important; }
+      .ey-cta-title { font-size: 44px; line-height: 46px; letter-spacing: -1.3px; }
+    }
+
+    /* ============ DESKTOP (>=1024) ============ */
+    @media (min-width: 1024px) {
+      .ey-cta-inner { padding: 171px 32px 170px; }
+      .ey-cta-title { font-size: 58px; line-height: 60px; letter-spacing: -1.8px; }
+      .ey-cta-refrao { font-size: 20px; line-height: 30px; margin-top: 28px; }
+      .ey-cta-tagline { font-size: 24px; line-height: 30px; margin-top: 30px; }
+    }
+
+    /* Flash contínuo passando pelo botão (ciclo 1.5s) */
+    .ey-cta-botao { position: relative; overflow: hidden !important; }
+    .ey-cta-botao::after { content: ""; position: absolute; top: -60%; left: 0; width: 34%; height: 220%;
+      background-image: linear-gradient(100deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0) 100%);
+      transform: translateX(-180%) skewX(-18deg); animation: ey-cta-flash 1.5s ease-in-out infinite; pointer-events: none; }
+    @keyframes ey-cta-flash { 0% { transform: translateX(-180%) skewX(-18deg); } 62%, 100% { transform: translateX(430%) skewX(-18deg); } }
+    @media (prefers-reduced-motion: reduce) { .ey-cta-botao::after { animation: none; opacity: 0; } }
+    .ey-cta-botao { transition: transform .28s ease, box-shadow .28s ease; }
+    .ey-cta-botao:hover { transform: scale(1.035); }
+    @media (prefers-reduced-motion: reduce) { .ey-cta-botao:hover { transform: none; } }
+
+
+    /* selo florzinha girando devagar (decorativo, contínuo) */
+    .ey-cta-selo { animation: ey-cta-flutua 6s ease-in-out infinite; }
+    @keyframes ey-cta-flutua { 0%, 100% { transform: rotate(-14deg) translateY(0); } 50% { transform: rotate(-11deg) translateY(-12px); } }
+    @media (prefers-reduced-motion: reduce) { .ey-cta-selo { animation: none; } }
+
+    /* ===== BLINDAGEM ELEMENTOR ===== */
+    .ey-cta-botao, .ey-cta-botao:hover, .ey-cta-botao:active, .ey-cta-botao:focus, .ey-cta-botao:visited { background-image: linear-gradient(90deg, #c8a04e 2.08%, #f6df95 36.09%, #fce4a6 67.2%, #c8a04e 104.66%) !important; background-color: transparent !important; color: #4a0309 !important; border-color: #c9a45a !important; text-decoration: none !important; }
+
+    /* Anti-flash: tudo que o animations.js anima começa oculto (o GSAP vem por CDN).
+       Sem JS — ou sem GSAP em 3s — a flag ey-js sai e o conteúdo aparece. */
+    html.ey-js .ey-cta-selo, html.ey-js .ey-cta-title, html.ey-js .ey-cta-refrao, html.ey-js .ey-cta-botao, html.ey-js .ey-cta-tagline { opacity: 0; }
+    @media (prefers-reduced-motion: reduce) { html.ey-js .ey-cta-selo, html.ey-js .ey-cta-title, html.ey-js .ey-cta-refrao, html.ey-js .ey-cta-botao, html.ey-js .ey-cta-tagline { opacity: 1; } }
+  </style>
+
+  <div class="ey-cta-bg">
+    <img class="ey-cta-bg-img" src="assets/cta-final-bg.webp" alt="" width="2560" height="1086" loading="lazy" decoding="async">
+    <span class="ey-cta-bg-shade"></span>
+  </div>
+  <div class="ey-cta-inner">
+    <img class="ey-cta-selo" src="assets/sache-cutout.png" alt="" width="190" height="48" loading="lazy" decoding="async">
+    <h2 class="ey-cta-title">Autonomia se constrói com informação certa, na hora certa. É saber, antes de todo mundo, quando o primeiro lote abre. <span class="ey-cta-title-it">É começar sua Segunda Fase informada, não em estado de vigilância.</span></h2>
+    <a class="ey-cta-botao" href="#ey-form">Entrar no grupo da Segunda Fase</a>
+    <p class="ey-cta-tagline">EYVE. A Segunda Fase da sua conquista.</p>
+  </div>
+</section>
+
+
+<!-- ============================================================
+  EYVE · Segunda Fase — S14 FOOTER | Okya Designs
+  Base: referência ZEVYA s14. Marcadores #__..._EYVE__ aguardam URL.
+============================================================ -->
+<section class="ey-footer">
+  <style>
+    body { margin: 0; }
+    .ey-footer, .ey-footer *, .ey-footer *::before, .ey-footer *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    .ey-footer { width: 100%; overflow: hidden !important; background-color: #4a0309; -webkit-font-smoothing: antialiased; }
+
+    /* ============ MOBILE (base) ============ */
+    .ey-footer-inner { padding: 30px 10px 0; display: flex; flex-direction: column; gap: 34px; }
+    .ey-footer-marca { display: flex; flex-direction: column; gap: 12px; }
+    .ey-footer-logo { width: 110px !important; height: 46px !important; display: block; object-fit: contain !important; }
+    .ey-footer-tagline { font-family: 'Neue Haas', Arial, sans-serif; font-weight: 400; font-size: 14px; line-height: 19.6px; color: rgba(254,245,228,0.65); }
+    .ey-footer-cols { display: flex; flex-wrap: wrap; gap: 34px 44px; }
+    .ey-footer-col { display: flex; flex-direction: column; gap: 12px; min-width: 120px; }
+    .ey-footer-col-titulo { font-family: 'Neue Haas', Arial, sans-serif; font-weight: 500; font-size: 16px; line-height: 22.4px; color: #fef5e4; }
+    .ey-footer-link { font-family: 'Neue Haas', Arial, sans-serif; font-weight: 400; font-size: 14px; line-height: 19.6px; color: rgba(254,245,228,0.65); text-decoration: none; }
+    .ey-footer-link:hover { color: #fef5e4; }
+    .ey-footer-social { display: flex; align-items: center; gap: 10.727px; }
+    .ey-footer-social-btn { width: 32.2px; height: 32.2px; border-radius: 39.155px !important; background-color: #ffffff; display: inline-flex; align-items: center; justify-content: center; transition: transform .28s ease; }
+    .ey-footer-social-btn:hover { transform: scale(1.12); }
+    /* rede ainda sem perfil: esmaecida e sem reagir ao clique/hover */
+    .ey-footer-social-inativo { opacity: 0.38 !important; pointer-events: none !important; cursor: default !important; }
+    .ey-footer-social-inativo:hover { transform: none !important; }
+    .ey-footer-social-icone { width: auto !important; height: 17.164px !important; display: block; }
+    .ey-footer-zap { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 36.7px; padding: 11.233px 18.253px; border-radius: 701.334px !important; background-color: #04b916; font-family: 'Neue Haas', Arial, sans-serif; font-weight: 800; font-size: 8.761px; line-height: 13.142px; letter-spacing: 0.6133px; text-transform: uppercase; color: #ffffff; text-decoration: none; filter: drop-shadow(0 8.424px 10.531px rgba(103,3,11,0.12)); align-self: flex-start; }
+    .ey-footer-zap-icone { width: 12.807px; height: 14.401px; display: block; flex: 0 0 auto; }
+    .ey-footer-base { margin-top: 16px; border-top: 0.8px solid rgba(254,245,228,0.12); padding: 22px 16px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px 39px; }
+    .ey-footer-copy { font-family: 'Neue Haas', Arial, sans-serif; font-weight: 400; font-size: 10.88px; line-height: 16.32px; text-align: center; color: rgba(254,245,228,0.45); }
+    .ey-footer-okya { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; transition: opacity .25s ease; }
+    .ey-footer-okya:hover { opacity: 0.75; }
+    .ey-footer-okya-texto { font-family: 'Neue Haas', Arial, sans-serif; font-weight: 400; font-size: 10.88px; line-height: 1.25; color: rgba(254,245,228,0.45); }
+    .ey-footer-okya-logo { display: block; width: 52px !important; height: auto !important; object-fit: contain !important; }
+
+    /* ============ TABLET (>=768) ============ */
+    @media (min-width: 768px) {
+      .ey-footer-inner { padding: 56px 24px 0; flex-direction: row; flex-wrap: wrap; justify-content: space-between; }
+      .ey-footer-marca { flex: 1 1 100%; }
+    }
+
+    /* ============ DESKTOP (>=1024) ============ */
+    @media (min-width: 1024px) {
+      /* valores do Figma restaurados (o mobile usa a escala do cliente) */
+      .ey-footer-tagline { font-size: 12.48px; line-height: 19.968px; }
+      .ey-footer-link { font-size: 12.48px; line-height: 18.72px; }
+      .ey-footer-col-titulo { font-size: 16px; line-height: 24px; }
+      .ey-footer-inner { padding: 90px 32px 0; max-width: 1504px; margin-left: auto; margin-right: auto; flex-wrap: nowrap; gap: 50px; }
+      .ey-footer-marca { flex: 1 1 auto; max-width: 744px; }
+      .ey-footer-cols { flex: 0 0 auto; gap: 24px; }
+      .ey-footer-col { min-width: 120px; }
+      .ey-footer-col-social { min-width: 140px; }
+      .ey-footer-base { margin-top: 60px; }
+    }
+
+    /* Flash contínuo passando pelo botão (ciclo 1.5s) */
+    .ey-footer-zap { position: relative; overflow: hidden !important; }
+    .ey-footer-zap::after { content: ""; position: absolute; top: -60%; left: 0; width: 34%; height: 220%;
+      background-image: linear-gradient(100deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0) 100%);
+      transform: translateX(-180%) skewX(-18deg); animation: ey-footer-flash 1.5s ease-in-out infinite; pointer-events: none; }
+    @keyframes ey-footer-flash { 0% { transform: translateX(-180%) skewX(-18deg); } 62%, 100% { transform: translateX(430%) skewX(-18deg); } }
+    @media (prefers-reduced-motion: reduce) { .ey-footer-zap::after { animation: none; opacity: 0; } }
+    .ey-footer-zap { transition: transform .28s ease, box-shadow .28s ease; }
+    .ey-footer-zap:hover { transform: scale(1.035); }
+    @media (prefers-reduced-motion: reduce) { .ey-footer-zap:hover { transform: none; } }
+
+    /* ===== BLINDAGEM ELEMENTOR ===== */
+    .ey-footer-zap, .ey-footer-zap:hover, .ey-footer-zap:active, .ey-footer-zap:focus, .ey-footer-zap:visited { background-color: #04b916 !important; background-image: none !important; color: #ffffff !important; text-decoration: none !important; }
+    .ey-footer-link, .ey-footer-link:active, .ey-footer-link:focus, .ey-footer-link:visited { color: rgba(254,245,228,0.65) !important; background: none !important; text-decoration: none !important; }
+    .ey-footer-link:hover { color: #fef5e4 !important; background: none !important; text-decoration: none !important; }
+    .ey-footer-social-btn, .ey-footer-social-btn:hover, .ey-footer-social-btn:active, .ey-footer-social-btn:focus, .ey-footer-social-btn:visited { background-color: #ffffff !important; background-image: none !important; text-decoration: none !important; color: #67030b !important; }
+    .ey-footer-okya, .ey-footer-okya:hover, .ey-footer-okya:active, .ey-footer-okya:focus, .ey-footer-okya:visited { background: none !important; text-decoration: none !important; color: rgba(254,245,228,0.45) !important; }
+
+    /* Anti-flash: tudo que o animations.js anima começa oculto (o GSAP vem por CDN).
+       Sem JS — ou sem GSAP em 3s — a flag ey-js sai e o conteúdo aparece. */
+    html.ey-js .ey-footer-marca, html.ey-js .ey-footer-col { opacity: 0; }
+    @media (prefers-reduced-motion: reduce) { html.ey-js .ey-footer-marca, html.ey-js .ey-footer-col { opacity: 1; } }
+  </style>
+
+  <div class="ey-footer-inner">
+    <div class="ey-footer-marca">
+      <img class="ey-footer-logo" src="assets/logo-eyve-creme.svg" alt="EYVE" width="110" height="46" loading="lazy" decoding="async">
+      <p class="ey-footer-tagline">EYVE. A Segunda Fase da sua conquista.</p>
+    </div>
+    <div class="ey-footer-cols">
+      <div class="ey-footer-col">
+        <p class="ey-footer-col-titulo">Navegue</p>
+        <a class="ey-footer-link" href="#ey-sistema">O sistema</a>
+        <a class="ey-footer-link" href="#ey-ritual">O ritual</a>
+        <a class="ey-footer-link" href="#ey-formula">Fórmula</a>
+        <a class="ey-footer-link" href="#ey-oferta">Oferta</a>
+      </div>
+      <div class="ey-footer-col">
+        <p class="ey-footer-col-titulo">Atendimento</p>
+        <a class="ey-footer-link" href="#ey-faq">Perguntas frequentes</a>
+        <a class="ey-footer-link" href="#__INSTAGRAM_EYVE__" target="_blank" rel="noopener">Instagram</a>
+        <a class="ey-footer-link" href="#__POLITICA_PRIVACIDADE_EYVE__" target="_blank" rel="noopener">Política de privacidade</a>
+      </div>
+      <div class="ey-footer-col ey-footer-col-social">
+        <p class="ey-footer-col-titulo">Siga-nos</p>
+        <div class="ey-footer-social">
+          <a class="ey-footer-social-btn" href="#__TIKTOK_EYVE__" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><img class="ey-footer-social-icone" src="assets/icone-tiktok.svg" alt="" width="17" height="17" loading="lazy" decoding="async"></a>
+          <a class="ey-footer-social-btn" href="#__FACEBOOK_EYVE__" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><img class="ey-footer-social-icone" src="assets/icone-facebook.svg" alt="" width="17" height="17" loading="lazy" decoding="async"></a>
+          <a class="ey-footer-social-btn" href="#__INSTAGRAM_EYVE__" target="_blank" rel="noopener" aria-label="Instagram"><img class="ey-footer-social-icone" src="assets/icone-instagram.svg" alt="" width="17" height="17" loading="lazy" decoding="async"></a>
+        </div>
+      </div>
+      <div class="ey-footer-col">
+        <p class="ey-footer-col-titulo">Contato para suporte</p>
+        <a class="ey-footer-zap" href="#__WHATSAPP_EYVE__" target="_blank" rel="noopener noreferrer">
+          <svg class="ey-footer-zap-icone" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="#ffffff" d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
+          entre em contato
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="ey-footer-base">
+    <p class="ey-footer-copy">© 2026 EYVE. Todos os direitos reservados. Este produto não substitui uma alimentação equilibrada nem acompanhamento profissional.</p>
+    <a class="ey-footer-okya" href="https://okya.com.br" target="_blank" rel="noopener">
+      <span class="ey-footer-okya-texto">Design e desenvolvimento por</span>
+      <img class="ey-footer-okya-logo" src="assets/logo-okya.png" alt="Okya" width="427" height="74" loading="lazy" decoding="async">
+    </a>
+  </div>
+</section>
+
+
+<!-- ============================================================
+  EYVE Segunda Fase — S99 ANIMAÇÃO (Lenis + GSAP) | Okya Designs
+  Cole este widget HTML por ÚLTIMO na página do Elementor (depois do rodapé).
+  Carrega GSAP + ScrollTrigger + Lenis e roda o animations.js.
+  Direção definida em _ANIMACAO.md. O JS é injetado pelo build a partir de animations.js.
+============================================================ -->
+<div class="ey-anim" aria-hidden="true"></div>
+
+<style>
+  /* lenis.css INLINE (não depende do unpkg) + !important reforçado pra vencer o tema.
+     Sem estas regras o Lenis funciona por acidente: 'height: auto' evita o conflito com
+     temas que fixam altura no html/body, e 'lenis-stopped' é o que trava o scroll de
+     verdade quando o menu abre (lenis.stop()). */
+  html.lenis, html.lenis body { height: auto !important; }
+  html.lenis.lenis-smooth { scroll-behavior: auto !important; }
+  html.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+  html.lenis.lenis-stopped { overflow: hidden !important; }
+  html.lenis.lenis-scrolling iframe { pointer-events: none; }
+  html.lenis.lenis-smooth iframe { pointer-events: none; }
+  /* o tema pode setar scroll-behavior no body também */
+  body { scroll-behavior: auto !important; }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+<script>
+/* ============================================================
+  EYVE · Segunda Fase — animations.js  (v2: granular, com saída e replay)
+  Lenis + GSAP/ScrollTrigger. Direção em _ANIMACAO.md.
+  Tom: editorial-sensorial — entra de baixo/dos lados com desfoque, sem bounce.
+
+  Regras do sistema v2 (decisão do cliente):
+  - ITENS animam individualmente (stagger), não o container inteiro.
+  - Gatilho SÓ pela borda de baixo: entra subindo e, ao voltar pra baixo,
+    REVERTE (sai por baixo) e reproduz de novo na próxima passada.
+  - Direção com motivo de LAYOUT: coluna da esquerda vem da esquerda, a da
+    direita vem da direita, bloco centralizado vem de baixo. Nada aleatório.
+  - UM ScrollTrigger por GRUPO (não por item) — mantém o custo baixo.
+  - Botão com :hover scale NÃO recebe transform aqui (senão o inline mata o hover);
+    entra só por opacidade. Elemento com filter próprio (drop-shadow) não recebe blur.
+  ============================================================ */
+(function () {
+  if (!window.gsap) { console.warn('[eyve] GSAP não carregou — página segue estática.'); return; }
+  gsap.registerPlugin(ScrollTrigger);
+
+  var reduz = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ===== 1. LENIS ===== */
+  var lenis = null;
+  if (window.Lenis) {
+    lenis = new Lenis({
+      duration: 1.15,
+      easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
+      smoothWheel: true,
+      touchMultiplier: 1.5
+    });
+    window.lenis = lenis;
+
+    /* ===== 2. PONTE LENIS ↔ SCROLLTRIGGER ===== */
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
+    gsap.ticker.lagSmoothing(0);
+
+    /* ===== 3. ÂNCORAS via Lenis ===== */
+    document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        var href = a.getAttribute('href');
+        if (!href || href.length < 2 || href.indexOf('#__') === 0) return;
+        var alvo = document.querySelector(href);
+        if (!alvo) return;
+        e.preventDefault();
+        lenis.scrollTo(alvo, { offset: 0 });
+      });
+    });
+  }
+
+  /* ===== 4. SISTEMA DE MOVIMENTO ===== */
+  var M = {
+    dur: { fast: 0.55, base: 0.85, slow: 1.15 },
+    ease: { out: 'power2.out', strong: 'power3.out', hero: 'expo.out' },
+    dist: { sm: 28, md: 48, lg: 72 },
+    stag: { tight: 0.07, base: 0.11, loose: 0.16 },
+    blur: 8
+  };
+  /* play / none / none / reverse  ->  só a borda de BAIXO comanda:
+    entra ao subir na tela; ao descer de volta, reverte e sai por baixo. */
+  var TRIG = { start: 'top 88%', toggleActions: 'play none none reverse' };
+
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  /* resolve tudo em ELEMENTO — inclusive array de seletores, que é a forma mais
+     usada aqui (entra(['.a','.b'])). Antes as strings iam cruas pro gsap resolver. */
+  function lista() {
+    var out = [];
+    function empurra(x) {
+      if (!x) return;
+      if (typeof x === 'string') out = out.concat($$(x));
+      else if (x.nodeType) out.push(x);
+      else if (typeof x.length === 'number') Array.prototype.forEach.call(x, empurra);
+    }
+    Array.prototype.forEach.call(arguments, empurra);
+    /* fora quem está em display:none no breakpoint atual (ex.: no mobile a galeria
+       da oferta e o bloco de total). Sem rect, o ScrollTrigger mediria offset 0 e
+       dispararia no topo do documento — trigger lixo, e o elemento não aparece. */
+    return out.filter(function (el) { return el.getClientRects().length; });
+  }
+
+  if (reduz) {
+    window.addEventListener('load', function () { if (window.ScrollTrigger) ScrollTrigger.refresh(); });
+    document.documentElement.classList.remove('ey-js');
+    return;
+  }
+
+  /* ---------------------------------------------------------
+    entra(itens, opts) — UM trigger pro grupo, stagger nos itens.
+      de: 'baixo' | 'esq' | 'dir'
+      semBlur: elemento que já tem filter próprio (drop-shadow)
+      semMover: botão com :hover scale — deixa o transform pro CSS
+    --------------------------------------------------------- */
+  function entra(itens, opts) {
+    opts = opts || {};
+    itens = lista(itens);
+    if (!itens.length) return;
+    var de = opts.de || 'baixo';
+    var d = opts.dist || M.dist.md;
+
+    var origem = { opacity: 0 };
+    var destino = {
+      opacity: 1,
+      duration: opts.dur || M.dur.base,
+      ease: opts.ease || M.ease.out,
+      stagger: opts.stagger === 0 ? 0 : (opts.stagger || M.stag.base),
+      scrollTrigger: Object.assign({ trigger: opts.trigger || itens[0] }, TRIG)
+    };
+    if (!opts.semMover) {
+      if (de === 'esq') { origem.x = -d; destino.x = 0; }
+      else if (de === 'dir') { origem.x = d; destino.x = 0; }
+      else { origem.y = d; destino.y = 0; }
+    }
+    if (!opts.semBlur) { origem.filter = 'blur(' + M.blur + 'px)'; destino.filter = 'blur(0px)'; }
+    gsap.fromTo(itens, origem, destino);
+  }
+
+  /* foto entra por máscara + escala (assinatura editorial do tom) */
+  function revela(alvo, opts) {
+    opts = opts || {};
+    alvo = lista(alvo);
+    if (!alvo.length) return;
+    gsap.fromTo(alvo,
+      { clipPath: 'inset(16% 0% 0% 0%)', scale: 1.08, opacity: 0 },
+      {
+        clipPath: 'inset(0% 0% 0% 0%)', scale: 1, opacity: 1,
+        duration: opts.dur || M.dur.slow, ease: opts.ease || M.ease.strong,
+        stagger: opts.stagger || 0,
+        scrollTrigger: Object.assign({ trigger: opts.trigger || alvo[0] }, TRIG)
+      });
+  }
+
+  /* contador — ÚNICA exceção ao replay da página (once: true).
+    Motivo: o preço é um elemento FUNCIONAL, dono compartilhado com o seletor de
+    plano. Com replay ele reiniciava a cada mudança de altura (a expansão do
+    painel no mobile) e sobrescrevia o valor escolhido pela pessoa. Conta uma vez
+    na primeira aparição e nunca mais encosta no texto. */
+  function conta(el) {
+    if (!el || !el.getClientRects().length) return;   /* no mobile o total da oferta é display:none */
+    /* O ScrollTrigger aqui é só GATILHO — a contagem é um tween SOLTO, sem
+       scrollTrigger anexado. Anexado, o `once: true` matava o trigger e levava o
+       tween junto no primeiro frame: o preço congelava em "R$0". Solto, nada do
+       scroll (refresh, mudança de altura, reverse) alcança a contagem. */
+    ScrollTrigger.create({
+      trigger: el, start: TRIG.start, once: true,
+      onEnter: function () {
+        if (el.getAttribute('data-ey-travado')) return;   /* a pessoa já escolheu: o preço é dela */
+        var bruto = (el.textContent || '').trim();
+        var num = parseFloat(bruto.replace(/\./g, '').replace(',', '.').replace(/[^\d.]/g, ''));
+        var sufixo = bruto.replace(/^[\d.,\s]+/, '');
+        if (!isFinite(num)) return;
+        var estado = { p: 0 };
+        gsap.to(estado, {
+          p: 1, duration: M.dur.slow, ease: M.ease.strong,
+          /* checa a trava a cada frame: se clicarem num plano no meio da contagem,
+             ela solta o texto na hora em vez de brigar pelo mesmo elemento */
+          onUpdate: function () {
+            if (el.getAttribute('data-ey-travado')) { this.kill(); return; }
+            el.textContent = Math.round(num * estado.p) + sufixo;
+          },
+          onComplete: function () {
+            if (!el.getAttribute('data-ey-travado')) el.textContent = bruto;
+          }
+        });
+      }
+    });
+  }
+
+  /* ============================================================
+    s01 HERO — ASSINATURA 1 (roda na carga, não no scroll)
+    ============================================================ */
+  (function () {
+    var raiz = $('.ey-hero'); if (!raiz) return;
+    var tl = gsap.timeline({ defaults: { ease: M.ease.hero } });
+    tl.fromTo($('.ey-hero-kicker', raiz), { opacity: 0, y: M.dist.sm, filter: 'blur(8px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: M.dur.fast }, 0.1)
+      .fromTo($('.ey-hero-title', raiz), { opacity: 0, y: M.dist.lg, filter: 'blur(10px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: M.dur.slow }, 0.15)
+      .fromTo($('.ey-hero-sub', raiz), { opacity: 0, y: M.dist.md, filter: 'blur(8px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: M.dur.base }, 0.35)
+      .fromTo($('.ey-hero-para', raiz), { opacity: 0, y: M.dist.md, filter: 'blur(8px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: M.dur.base }, 0.45)
+      .fromTo($('.ey-hero-cta', raiz), { opacity: 0 }, { opacity: 1, duration: M.dur.base }, 0.55)
+      .fromTo($('.ey-hero-note', raiz), { opacity: 0 }, { opacity: 1, duration: M.dur.fast }, 0.7)
+      .fromTo($$('.ey-hero-stat', raiz), { opacity: 0, y: M.dist.sm, filter: 'blur(6px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: M.dur.base, stagger: M.stag.base }, 0.75);
+    gsap.from($('.ey-hero-mulher', raiz), { scale: 1.08, duration: 1.4, ease: M.ease.hero });
+    $$('.ey-hero-stat-num', raiz).forEach(conta);
+  })();
+
+  /* s02 DEPOIMENTOS — cabeçalho, depois cada card */
+  (function () {
+    var r = $('.ey-depo'); if (!r) return;
+    entra(['.ey-depo-kicker', '.ey-depo-title', '.ey-depo-intro'], { trigger: $('.ey-depo-title', r) });
+    entra('.ey-depo-card', { trigger: $('.ey-depo-cards', r), stagger: M.stag.loose, dist: M.dist.lg });
+  })();
+
+  /* s03 PROBLEMA — cabeçalho; duelo em duas colunas (foto ESQ / texto DIR) */
+  (function () {
+    var r = $('.ey-prob'); if (!r) return;
+    entra(['.ey-prob-kicker', '.ey-prob-title'], { trigger: $('.ey-prob-title', r) });
+    entra('.ey-prob-pergunta', { dist: M.dist.sm, stagger: M.stag.base, trigger: $('.ey-prob-perguntas', r) });
+    entra('.ey-prob-lead', { trigger: $('.ey-prob-lead', r) });
+    entra('.ey-prob-para', { trigger: $('.ey-prob-para', r) });
+    revela('.ey-prob-figura-img', { trigger: $('.ey-prob-duelo', r) });
+    entra(['.ey-prob-kicker2', '.ey-prob-h2', '.ey-prob-sub', '.ey-prob-body'], { de: 'dir', trigger: $('.ey-prob-texto', r) });
+    entra('.ey-prob-frag-item', { de: 'dir', dist: M.dist.sm, stagger: M.stag.tight, trigger: $('.ey-prob-frag', r) });
+    entra(['.ey-prob-cad', '.ey-prob-it'], { de: 'dir', trigger: $('.ey-prob-cad', r) });
+  })();
+
+  /* s04 FÓRMULA — cabeçalho + 4 cards */
+  (function () {
+    var r = $('.ey-form'); if (!r) return;
+    entra(['.ey-form-kicker', '.ey-form-title', '.ey-form-para', '.ey-form-lead'], { trigger: $('.ey-form-title', r) });
+    entra('.ey-form-card', { trigger: $('.ey-form-cards', r), stagger: M.stag.base, dist: M.dist.lg });
+    entra(['.ey-form-cad', '.ey-form-fecho-para', '.ey-form-neg'], { trigger: $('.ey-form-fecho', r) });
+    entra('.ey-form-cta', { semMover: true, semBlur: true, trigger: $('.ey-form-fecho', r) });
+  })();
+
+  /* s05 ATIVAÇÃO — foto ESQ, texto DIR, itens da lista um a um */
+  (function () {
+    var r = $('.ey-ativ'); if (!r) return;
+    revela('.ey-ativ-foto');
+    entra(['.ey-ativ-kicker', '.ey-ativ-title', '.ey-ativ-para'], { de: 'dir', trigger: $('.ey-ativ-texto', r) });
+    entra(['.ey-ativ-lista-titulo', '.ey-ativ-item'], { de: 'dir', dist: M.dist.sm, stagger: M.stag.tight, trigger: $('.ey-ativ-lista', r) });
+    entra(['.ey-ativ-propoe', '.ey-ativ-fecho'], { de: 'dir', trigger: $('.ey-ativ-propoe', r) });
+  })();
+
+  /* s06 PASSOS — cabeçalho + cards (no mobile são pilha sticky: só o cabeçalho) */
+  (function () {
+    var r = $('.ey-passos'); if (!r) return;
+    entra(['.ey-passos-kicker', '.ey-passos-title', '.ey-passos-para'], { trigger: $('.ey-passos-title', r) });
+    entra('.ey-passos-fecho', { trigger: $('.ey-passos-fecho', r) });
+    ScrollTrigger.matchMedia({
+      '(min-width: 1024px)': function () {
+        entra('.ey-passos-card', { trigger: $('.ey-passos-cards', r), stagger: M.stag.loose, dist: M.dist.lg, semBlur: true });
+      }
+    });
+  })();
+
+  /* s07 CIÊNCIA — card ESQ (itens dentro), cada artigo DIR item a item */
+  (function () {
+    var r = $('.ey-cien'); if (!r) return;
+    entra(['.ey-cien-kicker', '.ey-cien-title', '.ey-cien-para'], { de: 'esq', trigger: $('.ey-cien-card', r) });
+    revela('.ey-cien-foto', { trigger: $('.ey-cien-foto-wrap', r) });
+    entra('.ey-cien-cta', { semMover: true, semBlur: true, trigger: $('.ey-cien-card', r) });
+    $$('.ey-cien-item', r).forEach(function (item) {
+      entra(lista($('.ey-cien-num', item), $('.ey-cien-label', item), $('.ey-cien-item-title', item), $('.ey-cien-item-texto', item)),
+        { de: 'dir', dist: M.dist.sm, dur: M.dur.fast, stagger: M.stag.tight, trigger: item });
+    });
+    entra(['.ey-cien-fecho-para', '.ey-cien-fecho-cad', '.ey-cien-fecho-fim'], { de: 'dir', trigger: $('.ey-cien-fecho', r) });
+  })();
+
+  /* s08 FUNDADORA — foto ESQ, texto DIR */
+  (function () {
+    var r = $('.ey-fund'); if (!r) return;
+    revela('.ey-fund-foto');
+    entra(['.ey-fund-kicker', '.ey-fund-title'], { de: 'dir', trigger: $('.ey-fund-texto', r) });
+    entra('.ey-fund-lista', { de: 'dir', stagger: M.stag.base, trigger: $('.ey-fund-listas', r) });
+    entra('.ey-fund-quote', { de: 'dir', trigger: $('.ey-fund-quote', r) });
+  })();
+
+  /* ============================================================
+    s09 OFERTA — ASSINATURA 2: galeria ESQ, conteúdo DIR item a item
+    ============================================================ */
+  (function () {
+    var r = $('.ey-oferta'); if (!r) return;
+    entra(['.ey-oferta-kicker', '.ey-oferta-title', '.ey-oferta-sub'], { trigger: $('.ey-oferta-title', r) });
+    revela('.ey-oferta-galeria-img', { trigger: $('.ey-oferta-painel', r) });
+    entra(['.ey-oferta-mini', '.ey-oferta-h3', '.ey-oferta-desc'], { de: 'dir', trigger: $('.ey-oferta-conteudo', r) });
+    entra('.ey-oferta-item', { de: 'dir', dist: M.dist.sm, stagger: M.stag.base, trigger: $('.ey-oferta-planos', r) });
+    entra('.ey-oferta-perk', { dist: M.dist.sm, stagger: M.stag.tight, trigger: $('.ey-oferta-perks', r) });
+    entra(['.ey-oferta-total-strike', '.ey-oferta-total-linha', '.ey-oferta-total-parcela'],
+      { dist: M.dist.sm, stagger: M.stag.base, trigger: $('.ey-oferta-total', r) });
+    entra(['.ey-oferta-cta', '.ey-oferta-nota'], { semMover: true, semBlur: true, trigger: $('.ey-oferta-total', r) });
+    conta($('.ey-oferta-total-int', r));
+  })();
+
+  /* s10 GARANTIA — selo, depois o texto */
+  (function () {
+    var r = $('.ey-gar'); if (!r) return;
+    entra('.ey-gar-selo', { dist: M.dist.sm, dur: M.dur.slow, semBlur: true });
+    entra(['.ey-gar-kicker', '.ey-gar-title', '.ey-gar-para', '.ey-gar-reforco'], { trigger: $('.ey-gar-title', r) });
+    entra('.ey-gar-cta', { semMover: true, semBlur: true, trigger: $('.ey-gar-title', r) });
+  })();
+
+  /* s11 AUTOCUIDADO — texto ESQ, foto DIR (posição do desktop) */
+  (function () {
+    var r = $('.ey-auto'); if (!r) return;
+    entra(['.ey-auto-kicker', '.ey-auto-title', '.ey-auto-para'], { de: 'esq', trigger: $('.ey-auto-texto', r) });
+    entra('.ey-auto-item', { de: 'esq', dist: M.dist.sm, stagger: M.stag.tight, trigger: $('.ey-auto-lista', r) });
+    entra(['.ey-auto-cad', '.ey-auto-fecho'], { de: 'esq', trigger: $('.ey-auto-cad', r) });
+    revela('.ey-auto-foto');
+  })();
+
+  /* s12 FAQ — intro, cada pergunta, depois o botão */
+  (function () {
+    var r = $('.ey-faq'); if (!r) return;
+    entra(['.ey-faq-kicker', '.ey-faq-title', '.ey-faq-sub'], { trigger: $('.ey-faq-title', r) });
+    entra('.ey-faq-item', { dist: M.dist.sm, stagger: M.stag.base, trigger: $('.ey-faq-lista', r) });
+    entra('.ey-faq-cta', { semMover: true, semBlur: true, trigger: $('.ey-faq-cta', r) });
+  })();
+
+  /* ============================================================
+    s13 CTA FINAL — ASSINATURA 3: fecha o ciclo do hero
+    ============================================================ */
+  (function () {
+    var r = $('.ey-cta'); if (!r) return;
+    entra('.ey-cta-selo', { semMover: true, semBlur: true, trigger: r });
+    entra('.ey-cta-title', { dist: M.dist.lg, dur: M.dur.slow, ease: M.ease.hero, trigger: r });
+    entra('.ey-cta-refrao', { dist: M.dist.md, trigger: r });
+    entra('.ey-cta-botao', { semMover: true, semBlur: true, trigger: r });
+    entra('.ey-cta-tagline', { dist: M.dist.sm, trigger: r });
+  })();
+
+  /* s14 RODAPÉ — discreto, coluna a coluna */
+  (function () {
+    var r = $('.ey-footer'); if (!r) return;
+    entra(['.ey-footer-marca', '.ey-footer-col'], { dist: M.dist.sm, dur: M.dur.fast, stagger: M.stag.tight, trigger: $('.ey-footer-inner', r) });
+  })();
+
+  /* ===== 5. REFRESH FINAL ===== */
+  window.addEventListener('load', function () { ScrollTrigger.refresh(); });
+  document.documentElement.classList.remove('ey-js');
+})();
+
+/* ============================================================
+  PÁGINAS AVULSAS — captura (form dentro da hero) e obrigado
+  (os blocos acima ignoram silenciosamente seções que não existem na página)
+  ============================================================ */
+(function () {
+  if (!window.gsap || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var raiz = document.querySelector('.ey-hero');
+  if (raiz && raiz.querySelector('.ey-hero-form')) {
+    var tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
+    tl.fromTo(raiz.querySelector('.ey-hero-seg'), { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 0.85 }, 0.5)
+      .fromTo(raiz.querySelector('.ey-hero-benef-lead'), { opacity: 0 }, { opacity: 1, duration: 0.55 }, 0.6)
+      .fromTo(raiz.querySelectorAll('.ey-hero-benef-item'), { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7, stagger: 0.07 }, 0.65)
+      .fromTo(raiz.querySelector('.ey-hero-form'), { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.95 }, 0.85)
+      .fromTo(raiz.querySelector('.ey-hero-trust'), { opacity: 0 }, { opacity: 1, duration: 0.6 }, 1.1);
+  }
+  var obg = document.querySelector('.ey-obg');
+  if (obg) {
+    var t2 = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    t2.fromTo(obg.querySelector('.ey-obg-foto'), { clipPath: 'inset(16% 0% 0% 0%)', scale: 1.08, opacity: 0 }, { clipPath: 'inset(0% 0% 0% 0%)', scale: 1, opacity: 1, duration: 1.15 }, 0.1)
+      .fromTo(obg.querySelectorAll('.ey-obg-kicker, .ey-obg-title, .ey-obg-sub, .ey-obg-resumo, .ey-obg-passos-titulo, .ey-obg-passo, .ey-obg-reforco, .ey-obg-convite, .ey-obg-tagline'),
+        { opacity: 0, y: 36, filter: 'blur(8px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.85, stagger: 0.08 }, 0.25);
+  }
+  document.documentElement.classList.remove('ey-js');
+})();
+
+</script>
+
+</body></html>
